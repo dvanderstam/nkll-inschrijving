@@ -1,0 +1,23 @@
+/* step-navigation.css */
+
+.steps-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 65%;
+}
+
+.step-item {
+  color: #6c757d; /* Grijze kleur voor inactieve stappen */
+  font-size: 1rem;
+}
+
+.step-item.active {
+  color: #ffffff; /* Witte kleur voor de actieve stap */
+  font-weight: bold;
+}
+
+.step-separator {
+  color: #6c757d; /* Grijze kleur voor de pijlen */
+  font-size: 1rem;
+}

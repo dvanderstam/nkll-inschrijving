@@ -1,0 +1,53 @@
+/* header.css */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: #193C79; /* Donkerblauwe achtergrondkleur */
+  color: #ffffff; /* Witte tekstkleur voor leesbaarheid */
+}
+
+.site-header .header-inner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-logo {
+  max-width: 6rem;
+  height: auto;
+}
+
+.header-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0;
+  color: #ffffff; /* Witte tekst voor de titel */
+}
+
+.header-subtitle {
+  font-size: 1.25rem;
+  color: #dbe2f0; /* Iets lichtere kleur voor subtitel */
+  margin: 0;
+}
+
+/* Eventuele links in de header */
+.site-header a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.site-header a:hover {
+  color: #cce1ff; /* Lichtere tint bij hover */
+}
+
+@media (max-width: 576px) {
+  .header-title {
+    font-size: 1.5rem;
+  }
+
+  .header-subtitle {
+    font-size: 1rem;
+  }
+}

@@ -1,0 +1,159 @@
+/* App.css */
+
+/* Algemene layout en body stijl */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: #f0f2f5;
+  color: #333;
+  margin: 0;
+}
+
+
+/* Links en Hover-stijlen */
+a {
+  color: #c36;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #336;
+}
+
+/* Typografie voor koppen */
+h1, h2, h3, h4, h5, h6 {
+  color: #212529;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+/* Bootstrap knop aanpassingen */
+.btn-primary {
+  background-color: #007bff; /* Bootstrap blauw */
+  border-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #004085;
+}
+
+.btn-danger {
+  background-color: #dc3545; /* Rood voor gevaarlijke acties */
+  border-color: #dc3545;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+}
+
+/* Formulierstijlen */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea,
+select {
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  padding: 0.5rem;
+  transition: all 0.3s;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  outline: none;
+}
+
+/* Responsieve lay-out voor formulieren */
+@media (max-width: 768px) {
+  .form-group {
+    margin-bottom: 1rem;
+  }
+}
+
+/* Afstand en marges voor hoofdsecties */
+.container {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.step-container {
+  padding: 2rem;
+  text-align: center;
+}
+
+.step-title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.step-description {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 2rem;
+}
+/* App.css */
+
+.navigation-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+/* Knipperende honkbalcursor */
+@keyframes blinkCursor {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Verberg de standaard cursor niet */
+.honkbal-cursor-input {
+  position: relative;
+  padding-left: 30px; /* Ruimte voor honkbalcursor */
+  caret-color: auto; /* Zorg ervoor dat de standaard knipperende cursor zichtbaar is */
+}
+
+/* Placeholder standaard zichtbaar */
+.honkbal-cursor-input::placeholder {
+  color: #888; /* Standaard placeholder kleur */
+}
+
+/* Honkbal cursor toevoegen */
+.honkbal-cursor-input::after {
+  content: "\f433"; /* Unicode voor het honkbal-icoon */
+  font-family: "Font Awesome 6 Free"; /* FontAwesome 6 gebruiken */
+  font-weight: 900; /* Font-weight voor solid icons */
+  position: absolute;
+  left: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #007bff; /* Kleur van de honkbalcursor */
+  animation: blinkCursor 1s step-end infinite;
+  pointer-events: none;
+}
+/* Fade-in en fade-out animaties */
+.fade-enter {
+  opacity: 0;
+}
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 0.3s ease-in;
+}
+.fade-exit {
+  opacity: 1;
+}
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 1s ease-out;
+}
