@@ -9,6 +9,9 @@ import { Button } from 'react-bootstrap';
 const Step7Thanks = ({ title }) => {
   const { resetRegistrationData } = useRegistration();
   const navigate = useNavigate();
+  const CloseRegbutton = () => {
+    window.location.href = 'https://www.nklittleleague.nl'; // Navigate to the new URL
+  };
 
   useEffect(() => {
     document.title = title;
@@ -39,7 +42,7 @@ const Step7Thanks = ({ title }) => {
       <Button variant="primary" onClick={handleNewRegistration}>
         Opnieuw Registreren
       </Button>
-      <Button variant="danger" onClick={() => navigate('/')}>
+      <Button variant="danger" onClick={CloseRegbutton}>
           Afsluiten
         </Button>
     </div>

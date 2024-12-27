@@ -29,7 +29,7 @@ const PrevNextButtons = ({
   };
 
   return (
-    <div className="navigation-buttons">
+    <div className="navigation-buttons mb-1">
       {hasPrev && (
         <Button 
           variant="secondary" 

@@ -43,11 +43,11 @@ const Step5PersInfo = () => {
         <h2 className="text-center mb-4">Persoonlijke Informatie</h2>
 
         {/* Personal Information Section */}
-        <Row className="mb-3">
+        <Row className="mb-3" xs={1} md={3}>
           <Col>
             <BaseballInput
               label="Naam"
-              placeholder="Vul je voornaam in"
+              // placeholder="Vul je voornaam in"
               value={registrationData.nawInfo?.naam || ''}
               onChange={(e) => handleFieldChange('naam', e.target.value)}
               required
@@ -56,7 +56,7 @@ const Step5PersInfo = () => {
           <Col>
             <BaseballInput
               label="Tussenvoegsel"
-              placeholder="Vul je tussenvoegsel in"
+              // placeholder="Vul je tussenvoegsel in"
               value={registrationData.nawInfo?.tussenvoegsel || ''}
               onChange={(e) => handleFieldChange('tussenvoegsel', e.target.value)}
             />
@@ -64,7 +64,7 @@ const Step5PersInfo = () => {
           <Col>
             <BaseballInput
               label="Achternaam"
-              placeholder="Vul je achternaam in"
+              // placeholder="Vul je achternaam in"
               value={registrationData.nawInfo?.achternaam || ''}
               onChange={(e) => handleFieldChange('achternaam', e.target.value)}
               required
@@ -93,7 +93,7 @@ const Step5PersInfo = () => {
           </Col>
         </Row>
 
-        <Row className="mb-3">
+        <Row className="mb-3" xs={1} md={3}>
           <Col>
             <BaseballInput
               label="Bij welke club speel je"
@@ -114,11 +114,11 @@ const Step5PersInfo = () => {
 
         {/* Contact Information Section */}
         <h5 className="text-center mt-4">Contactgegevens</h5>
-        <Row className="mb-3">
+        <Row className="mb-3" xs={1} md={3}>
           <Col>
             <BaseballInput
               label="Email Ouders"
-              placeholder="Ouders' e-mailadres"
+              // placeholder="Ouders' e-mailadres"
               type="email"
               value={registrationData.nawInfo?.emailOuders || ''}
               onChange={(e) => handleFieldChange('emailOuders', e.target.value)}
@@ -132,6 +132,7 @@ const Step5PersInfo = () => {
               value={registrationData.nawInfo?.telefoonOuders || ''}
               onChange={(e) => handleFieldChange('telefoonOuders', e.target.value)}
               required
+              maxLength={11}
             />
           </Col>
           <Col>
@@ -141,6 +142,7 @@ const Step5PersInfo = () => {
               value={registrationData.nawInfo?.telefoonKind || ''}
               onChange={(e) => handleFieldChange('telefoonKind', e.target.value)}
               required
+              maxLength={11}
             />
           </Col>
         </Row>

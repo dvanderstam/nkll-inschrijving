@@ -35,7 +35,7 @@ const Step1Welcome = ({ title }) => {
 
         <BaseballInput
           label="Hoe heet je?"
-          placeholder="Vul je voornaam in"
+          // placeholder="Vul je voornaam in"
           value={name}
           onChange={handleNameChange}
           required

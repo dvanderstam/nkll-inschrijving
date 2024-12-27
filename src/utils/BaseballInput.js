@@ -22,8 +22,16 @@ const BaseballInput = ({
   const inputRef = useRef(null);
 
   const handleInputChange = (e) => {
+
+    if (type === 'email') {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      setIsValid(emailRegex.test(value));
+    } else {
+      setIsValid(true);
+    }
     onChange(e);
     console.log(e);
+    
   };
 
   const clearInput = () => {
@@ -37,7 +45,7 @@ const BaseballInput = ({
       <Form.Label>{label}</Form.Label>
       <div style={{ position: 'relative' }}>
         <Form.Control
-          type={type === 'postalcode' ? 'text' : type}
+          type={type}
           placeholder={placeholder}
           value={value}
           onChange={handleInputChange}
@@ -48,6 +56,7 @@ const BaseballInput = ({
           style={{
             paddingLeft: '35px',
             paddingRight: '25px',
+            borderColor: !isValid ? 'red' : undefined // Set border color to red if not valid
           }}
           readOnly={readOnly}
           required={required}
@@ -86,9 +95,7 @@ const BaseballInput = ({
             <FontAwesomeIcon icon={faTimesCircle} />
           </button>
         )}
-        <Form.Control.Feedback type="invalid">
-          {type === 'postalcode' ? 'Voer een geldige postcode in (bijv. 1234AB).' : `${label} is verplicht.`}
-        </Form.Control.Feedback>
+
       </div>
     </Form.Group>
   );

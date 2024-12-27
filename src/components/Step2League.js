@@ -54,14 +54,14 @@ const Step2League = ({ title }) => {
   const isNextEnabled = leagueResult.leagueAge && leagueResult.leagueAge > 9;
 
   return (
-    <div>
-      <Stack id="age-calc" className="mx-auto text-center">
+    <div className='container'>
+      <Stack id="age-calc" className="text-center mx-auto">
         <blockquote className="blockquote text-center mt-3 lead">
           Om te bepalen in welke league je tijdens NK mag spelen, 
           willen we je geboortedatum weten.
         </blockquote>
         
-        <Row className="justify-content-center mt-4">
+        <Row className="justify-content-center">
           <Col md="4">
             <Form.Group controlId="formGeboortedatum">
               <Form.Label>Mijn geboortedatum is:</Form.Label>
@@ -77,7 +77,7 @@ const Step2League = ({ title }) => {
           </Col>
         </Row>
 
-        <Row className="mt-4 lead text-center">
+        <Row className="lead text-center justify-content-center ">
           {leagueResult.message && (
             <div data-role="league-age-result" dangerouslySetInnerHTML={{ __html: leagueResult.message }} />
           )}

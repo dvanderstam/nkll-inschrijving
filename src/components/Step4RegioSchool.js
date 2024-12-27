@@ -13,6 +13,8 @@ const Step4RegioSchool= ({ title }) => {
   const { registrationData, updateRegistrationData } = useRegistration();
   const [isPostalCodeValid, setIsPostalCodeValid] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(''); // Add state for error message
+
 
   const handleFieldChange = async (fieldName, value) => {
     const updatedValue = fieldName === 'postcode' ? value.toUpperCase() : value;
@@ -38,6 +40,7 @@ const Step4RegioSchool= ({ title }) => {
 
         if (!response.ok) {
           setIsPostalCodeValid(false);
+          setErrorMessage('Verkeerde postcode of huisnummer'); // Update error message
           return;
         }
 
@@ -58,11 +61,14 @@ const Step4RegioSchool= ({ title }) => {
           }
 
           setIsPostalCodeValid(true);
+          setErrorMessage(''); // Clear error message on success
         } else {
           setIsPostalCodeValid(false);
+          setErrorMessage('Verkeerde postcode of huisnummer'); // Update error message
         }
       } catch (error) {
-        console.error('Error fetching address data:', error);
+      console.error('Error fetching address data:', error);
+        setErrorMessage('Er is iets misgegaan bij het ophalen van de adresgegevens');
         setIsPostalCodeValid(false);
       } finally {
         setIsLoading(false);
@@ -85,19 +91,19 @@ const Step4RegioSchool= ({ title }) => {
 
         {/* Address Section */}
         <h5 className="text-center mt-4">Adresgegevens</h5>
-        <Row className="mb-3">
+        <Row className="mb-3" xs={1} md={3}>
           <BaseballInput
-            label="Naam van je school"
-            placeholder="Vul de naam van je school in"
+            label="Op welke school zit je?"
+            // placeholder="Vul de naam van je school in"
             value={registrationData.schoolInfo.naam || ''}
             onChange={(e) => handleFieldChange('naam', e.target.value)}
             required
           />
           <Col>
             <BaseballInput
-              label="Postcode van je school"
+              label="Wat is de postcode van je school"
               type="postalcode"
-              placeholder="Bijv. 1234AB"
+              // placeholder="Bijv. 1234AB"
               value={registrationData.schoolInfo.postcode || ''}
               onChange={(e) => handleFieldChange('postcode', e.target.value)}
               isInvalid={!isPostalCodeValid}
@@ -107,8 +113,8 @@ const Step4RegioSchool= ({ title }) => {
           </Col>
           <Col>
             <BaseballInput
-              label="Huisnummer van je school"
-              placeholder="Bijv. 123A"
+              label="Wat is het huisnummer van je school"
+              // placeholder="Bijv. 123A"
               value={registrationData.schoolInfo.huisnummer || ''}
               onChange={(e) => handleFieldChange('huisnummer', e.target.value)}
               onBlur={fetchPostalCode}
@@ -118,12 +124,12 @@ const Step4RegioSchool= ({ title }) => {
           </Col>
         </Row>
 
-        <Form.Group className="mb-3">
-          <Row>
+        <Form.Group className="mb-3"  xs={1} md={2}>
+          <Row className="mb-3" xs={1} md={2}>
             <Col>
               <BaseballInput
                 label="Straat"
-                placeholder="Vul je straatnaam in"
+                // placeholder="Vul je straatnaam in"
                 value={registrationData.schoolInfo.straat || ''}
                 onChange={(e) => handleFieldChange('straat', e.target.value)}
                 readOnly
@@ -132,7 +138,7 @@ const Step4RegioSchool= ({ title }) => {
             <Col>
               <BaseballInput
                 label="Plaats"
-                placeholder="Bijv. Amsterdam"
+                // placeholder="Bijv. Amsterdam"
                 value={registrationData.schoolInfo.plaats || ''}
                 onChange={(e) => handleFieldChange('plaats', e.target.value)}
                 readOnly
@@ -142,11 +148,16 @@ const Step4RegioSchool= ({ title }) => {
         </Form.Group>
 
         {/* Region display */}
-        {registrationData.regionInfo.Schoolregio && (
+        {isPostalCodeValid ? (
+        registrationData.regionInfo.Schoolregio && (
           <h5 className="text-center mt-4">Schoolregio: {registrationData.regionInfo.Schoolregio}</h5>
-        )}
+        )
+      ) : (
+        <span style={{ color: 'red' }}>{errorMessage}</span>
+      )}
 
-        {/* Navigation Buttons */}
+        {/* Nav
+        igation Buttons */}
         <div className="text-center mt-4">
           <PrevNextButtons
             hasPrev={true}

@@ -13,6 +13,8 @@ const Step3RegioThuis= ({ title }) => {
   const { registrationData, updateRegistrationData } = useRegistration();
   const [isPostalCodeValid, setIsPostalCodeValid] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(''); // Add state for error message
+  
   useEffect(() => {
 
     document.title = "Regio Thuis - Inschrijving NK Little league"; // Set the document title here
@@ -41,6 +43,8 @@ const Step3RegioThuis= ({ title }) => {
 
         if (!response.ok) {
           setIsPostalCodeValid(false);
+          setErrorMessage('Verkeerde postcode of huisnummer'); // Update error message
+
           return;
         }
 
@@ -63,12 +67,16 @@ const Step3RegioThuis= ({ title }) => {
           }
 
           setIsPostalCodeValid(true);
+          setErrorMessage(''); // Clear error message on success
+
         } else {
           setIsPostalCodeValid(false);
+          setErrorMessage('Verkeerde postcode of huisnummer'); // Update error message
         }
       } catch (error) {
         console.error('Error fetching address data:', error);
         setIsPostalCodeValid(false);
+        setErrorMessage('Er is iets misgegaan bij het ophalen van de adresgegevens'); // Update error message
       } finally {
         setIsLoading(false);
       }
@@ -89,12 +97,12 @@ const Step3RegioThuis= ({ title }) => {
 
         {/* Address Section */}
         <h5 className="text-center mt-4">Adresgegevens</h5>
-        <Row className="mb-3">
+        <Row className="mb-3" xs={1} md={2}>
           <Col>
             <BaseballInput
-              label="Postcode"
+              label="Wat is je postcode?"
               type="postalcode"
-              placeholder="Bijv. 1234AB"
+              // placeholder="Bijv. 1234AB"
               value={registrationData.nawInfo.postcode || ''}
               onChange={(e) => handleFieldChange('postcode', e.target.value)}
               isInvalid={!isPostalCodeValid}
@@ -104,8 +112,8 @@ const Step3RegioThuis= ({ title }) => {
           </Col>
           <Col>
             <BaseballInput
-              label="Huisnummer"
-              placeholder="Bijv. 123A"
+              label="Wat is je huisnummer?"
+              // placeholder="Bijv. 123A"
               value={registrationData.nawInfo.huisnummer || ''}
               onChange={(e) => handleFieldChange('huisnummer', e.target.value)}
               onBlur={fetchPostalCode}
@@ -116,11 +124,11 @@ const Step3RegioThuis= ({ title }) => {
         </Row>
 
         <Form.Group className="mb-3">
-          <Row>
+          <Row xs={1} md={2} className="mb-3">
             <Col>
               <BaseballInput
                 label="Straat"
-                placeholder="Vul je straatnaam in"
+                // placeholder="Vul je straatnaam in"
                 value={registrationData.nawInfo.straat || ''}
                 onChange={(e) => handleFieldChange('straat', e.target.value)}
                 readOnly
@@ -129,7 +137,7 @@ const Step3RegioThuis= ({ title }) => {
             <Col>
               <BaseballInput
                 label="Plaats"
-                placeholder="Bijv. Amsterdam"
+                // placeholder="Bijv. Amsterdam"
                 value={registrationData.nawInfo.plaats || ''}
                 onChange={(e) => handleFieldChange('plaats', e.target.value)}
                 readOnly
@@ -139,10 +147,14 @@ const Step3RegioThuis= ({ title }) => {
         </Form.Group>
 
         {/* Region display */}
-        {registrationData.regionInfo.Thuisregio && (
-          <h5 className="text-center mt-4">Thuisregio: {registrationData.regionInfo.Thuisregio}</h5>
-        )}
-
+        {isPostalCodeValid ? (
+        registrationData.regionInfo.Schoolregio && (
+          <h5 className="text-center mt-4">Schoolregio: {registrationData.regionInfo.Schoolregio}</h5>
+        )
+      ) : (
+        <span style={{ color: 'red' }}>{errorMessage}</span>
+      )}
+      
         {/* Navigation Buttons */}
         <div className="text-center mt-4">
           <PrevNextButtons

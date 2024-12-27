@@ -27,6 +27,7 @@
     flex-wrap: wrap;
     width: 100%; /* Vul de volledige breedte */
     gap: 0.25rem; /* Minder ruimte tussen items */
+        justify-content: center; /* Centreer de stappen */
   }
 
   .step-item {
