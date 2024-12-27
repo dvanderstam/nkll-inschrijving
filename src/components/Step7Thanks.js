@@ -10,7 +10,7 @@ const Step7Thanks = ({ title }) => {
   const { resetRegistrationData } = useRegistration();
   const navigate = useNavigate();
   const CloseRegbutton = () => {
-    window.location.href = 'https://www.nklittleleague.nl'; // Navigate to the new URL
+    window.location.href = 'https://www.nklittleleague.nl'; // Navig ate to the new URL
   };
 
   useEffect(() => {
