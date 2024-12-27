@@ -21,3 +21,15 @@
   color: #6c757d; /* Grijze kleur voor de pijlen */
   font-size: 1rem;
 }
+@media (max-width: 576px) {
+  .steps-nav {
+    flex-direction: row; /* Plaats de stappen onder elkaar */
+    flex-wrap: wrap;
+    width: 100%; /* Vul de volledige breedte */
+    gap: 0.25rem; /* Minder ruimte tussen items */
+  }
+
+  .step-item {
+    font-size: 0.9rem; /* Maak stappen kleiner */
+  }
+}

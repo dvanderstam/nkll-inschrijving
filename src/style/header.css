@@ -51,3 +51,27 @@
     font-size: 1rem;
   }
 }
+@media (max-width: 576px) {
+  .site-header {
+    flex-direction: row; /* Stapel items verticaal */
+    align-items: center;
+    text-align: center;
+  }
+
+  .header-inner {
+    flex-direction: column;
+    gap: 0.5rem; /* Verminder ruimte op kleine schermen */
+  }
+
+  .header-logo {
+    max-width: 4rem; /* Verminder de grootte van het logo */
+  }
+
+  .header-title {
+    font-size: 1.25rem; /* Pas titelgrootte aan */
+  }
+
+  .header-subtitle {
+    font-size: 0.9rem; /* Kleinere subtitel */
+  }
+}

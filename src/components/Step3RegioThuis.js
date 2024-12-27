@@ -99,6 +99,7 @@ const Step3RegioThuis= ({ title }) => {
               onChange={(e) => handleFieldChange('postcode', e.target.value)}
               isInvalid={!isPostalCodeValid}
               required
+              maxLength={6} 
             />
           </Col>
           <Col>
@@ -109,6 +110,7 @@ const Step3RegioThuis= ({ title }) => {
               onChange={(e) => handleFieldChange('huisnummer', e.target.value)}
               onBlur={fetchPostalCode}
               required
+              maxLength={4} 
             />
           </Col>
         </Row>

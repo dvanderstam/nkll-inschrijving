@@ -14,7 +14,8 @@ const BaseballInput = ({
   type = 'text',
   readOnly = false,
   required = false,
-  disabled = false
+  disabled = false,
+  maxLength
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isValid, setIsValid] = useState(true);
@@ -51,6 +52,7 @@ const BaseballInput = ({
           readOnly={readOnly}
           required={required}
           disabled={disabled}
+          maxLength={maxLength}
         />
 
         {isFocused && (

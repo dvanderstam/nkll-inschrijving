@@ -24,18 +24,12 @@ const Step7Thanks = ({ title }) => {
       <h2>{title}</h2>
       <p>Bedankt voor je inschrijving!</p>
       <p className="mt-3">
-        De inschrijving loopt tot 1 maart 2022. Je zult tot die tijd even niks van ons horen.
+        De inschrijving loopt tot 1 maart 2025. Je zult tot die tijd even niks van ons horen.
         <br />
         De regiocoördinator van je league neemt contact met je op over het programma in jouw regio.
       </p>
-
       <p>
-        Op de website kun je de regiocoördinatoren vinden:
-        <br />
-        - Regio coördinatoren Honkbal
-        <br />
-        - Regio coördinatoren Softbal
-        <br />
+        Op de website kun je de regiocoördinatoren vinden:<br/>
         Wil je meer weten over het NK Little League, kijk dan op de website of volg ons op Facebook of Instagram.
       </p>
 

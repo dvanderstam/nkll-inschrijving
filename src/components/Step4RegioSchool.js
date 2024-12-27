@@ -101,7 +101,8 @@ const Step4RegioSchool= ({ title }) => {
               value={registrationData.schoolInfo.postcode || ''}
               onChange={(e) => handleFieldChange('postcode', e.target.value)}
               isInvalid={!isPostalCodeValid}
-              required
+              required  
+              maxLength={6} 
             />
           </Col>
           <Col>
@@ -112,6 +113,7 @@ const Step4RegioSchool= ({ title }) => {
               onChange={(e) => handleFieldChange('huisnummer', e.target.value)}
               onBlur={fetchPostalCode}
               required
+              maxLength={4} 
             />
           </Col>
         </Row>
