@@ -56,7 +56,7 @@ const Step5PersInfo = () => {
           <Col>
             <BaseballInput
               label="Tussenvoegsel"
-              // placeholder="Vul je tussenvoegsel in"
+              // placeholder="Vul je  tussenvoegsel in"
               value={registrationData.nawInfo?.tussenvoegsel || ''}
               onChange={(e) => handleFieldChange('tussenvoegsel', e.target.value)}
             />
