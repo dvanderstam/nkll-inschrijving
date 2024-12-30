@@ -127,7 +127,7 @@ const submissionUrl ="https://prod-72.westeurope.logic.azure.com:443/workflows/3
       <p>Controleer uw gegevens voordat u verder gaat:</p>
 
       <div className="confirmation-details">
-        <Row>
+        <Row xs={1} md={2}>
           <Col>
             <h5>Persoonlijke Gegevens</h5>
             <ul className="list-group">
@@ -149,7 +149,7 @@ const submissionUrl ="https://prod-72.westeurope.logic.azure.com:443/workflows/3
           </Col>
         </Row>
 
-        <Row className="mt-4">
+        <Row className="mt-4" xs={1} md={2}>
           <Col>
             <h5>Schoolgegevens</h5>
             <ul className="list-group">
@@ -169,7 +169,7 @@ const submissionUrl ="https://prod-72.westeurope.logic.azure.com:443/workflows/3
             </ul>
           </Col>
         </Row>
-        <Row className='mt-4'>
+        <Row className='mt-4' xs={1} md={2}>
           <Col>
           <h5>Club</h5>
           <ul className="list-group">
@@ -208,12 +208,12 @@ const submissionUrl ="https://prod-72.westeurope.logic.azure.com:443/workflows/3
         </Form.Group>
       </div>
 
-      <HCaptcha
+      <HCaptcha className="text-center mt-4" 
         sitekey="7aa06fd6-476e-44f2-bad2-791805cc6266" // Replace with your hCaptcha site key
         onVerify={handleCaptchaVerification}
       />
 
-      <div className="text-center mt-4">
+      <div  className="text-center mt-4">
         <PrevNextButtons
           hasPrev={true}
           hasNext={true}

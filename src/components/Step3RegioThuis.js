@@ -149,7 +149,7 @@ const Step3RegioThuis= ({ title }) => {
         {/* Region display */}
         {isPostalCodeValid ? (
         registrationData.regionInfo.Schoolregio && (
-          <h5 className="text-center mt-4">Schoolregio: {registrationData.regionInfo.Schoolregio}</h5>
+          <h5 className="text-center mt-4">Thuisregio: {registrationData.regionInfo.Thuisregio}</h5>
         )
       ) : (
         <span style={{ color: 'red' }}>{errorMessage}</span>
