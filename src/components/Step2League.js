@@ -70,8 +70,8 @@ const Step2League = ({ title }) => {
                 value={registrationData.nawInfo.geboortedatum || ''}
                 onChange={handleDateChange}
                 required
-                max="2018-01-01" 
-                min="2005-10-10"
+                max="2022-01-01" 
+                min="2008-12-31"
               />
             </Form.Group>
           </Col>
