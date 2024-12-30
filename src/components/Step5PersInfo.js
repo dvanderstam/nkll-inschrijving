@@ -86,7 +86,6 @@ const Step5PersInfo = () => {
                 <option value="">Selecteer</option>
                 <option value="meisje">meisje</option>
                 <option value="jongen">jongen</option>
-                <option value="Non-binair">Non-binair</option>
                 <option value="nvt">Voorkeur om niet te zeggen</option>
               </Form.Control>
             </Form.Group>
