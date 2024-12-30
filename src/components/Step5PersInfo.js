@@ -33,7 +33,6 @@ const Step5PersInfo = () => {
     geslacht &&
     registrationData.nawInfo?.emailOuders &&
     registrationData.nawInfo?.telefoonOuders &&
-    registrationData.nawInfo?.telefoonKind &&
     registrationData.nawInfo?.club &&
     registrationData.nawInfo?.team;
 
