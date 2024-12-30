@@ -32,8 +32,9 @@ const Step7Thanks = ({ title }) => {
         De regiocoördinator van je league neemt contact met je op over het programma in jouw regio.
       </p>
       <p>
-        Op de website kun je de regiocoördinatoren vinden:<br/>
-        Wil je meer weten over het NK Little League, kijk dan op de website of volg ons op Facebook of Instagram.
+        Op de website kun je de regiocoördinatoren vinden:<br />
+        Wil je meer weten over het NK Little League kijk dan op de <a href='https://nklittleleague.nl' target='blank'>website</a> of volg ons op 
+        <a href='https://www.facebook.com/nklittleleague/' target='blank'>Facebook</a> of <a href='https://www.instagram.com/nklittleleague' target='blank'>Instagram</a>.
       </p>
 
       <p>Binnen een paar minuten krijg je een bevestiging per mail. Let op deze kan in je spamfolder terecht komen!</p>
@@ -45,8 +46,8 @@ const Step7Thanks = ({ title }) => {
         Opnieuw Registreren
       </Button>
       <Button variant="danger" onClick={CloseRegbutton}>
-          Afsluiten
-        </Button>
+        Afsluiten
+      </Button>
     </div>
   );
 };
