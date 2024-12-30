@@ -74,7 +74,7 @@ const Step5PersInfo = () => {
         <Row className="mb-3">
           <Col md="4">
             <Form.Group controlId="gender">
-              <Form.Label>Geslacht</Form.Label>
+              <Form.Label>Ik ben:</Form.Label>
               <Form.Control
                 as="select"
                 value={geslacht}
@@ -84,9 +84,10 @@ const Step5PersInfo = () => {
                 }}
               >
                 <option value="">Selecteer</option>
-                <option value="man">Man</option>
-                <option value="vrouw">Vrouw</option>
-                <option value="neutraal">Neutraal</option>
+                <option value="meisje">meisje</option>
+                <option value="jongen">jongen</option>
+                <option value="Non-binair">Non-binair</option>
+                <option value="nvt">Voorkeur om niet te zeggen</option>
               </Form.Control>
             </Form.Group>
           </Col>
