@@ -3,11 +3,16 @@ import { Container, Row, Col, Form } from 'react-bootstrap';
 import PrevNextButtons from './PrevNextButtons';
 import { useNavigate } from 'react-router-dom';
 import { useRegistration } from '../utils/RegistrationContext';
+import HCaptcha from '@hcaptcha/react-hcaptcha';
+
+
 
 const Step6Confirmation = () => {
   const { registrationData, updateRegistrationData } = useRegistration();
   const [gdprChecked, setGdprChecked] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState(null); // Add state for captcha token
+
   const navigate = useNavigate();
 
 const submissionUrl ="https://prod-72.westeurope.logic.azure.com:443/workflows/3c9e385855934455a9f964fabcf34660/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ANW-EUvEDkkmdI4o2ndbQzi1DLLFD3u_7ziE6Px73UU";
@@ -20,6 +25,10 @@ const submissionUrl ="https://prod-72.westeurope.logic.azure.com:443/workflows/3
     setGdprChecked(consentGiven);
     updateRegistrationData('gdprConsent', consentGiven);
   };
+  const handleCaptchaVerification = (token) => {
+    setCaptchaToken(token);
+  };
+
 
   const prepareSubmissionData = () => {
     const { nawInfo, schoolInfo, regionInfo,leagueInfo } = registrationData;
@@ -68,7 +77,12 @@ const submissionUrl ="https://prod-72.westeurope.logic.azure.com:443/workflows/3
   };
 
   const handleNext = async (e) => {
+
     if (e) e.preventDefault();
+    if (!captchaToken) {
+      alert('Please complete the captcha');
+      return;
+    }
 
     if (!gdprChecked) {
       alert('U moet akkoord gaan met de voorwaarden om door te gaan.');
@@ -87,7 +101,7 @@ const submissionUrl ="https://prod-72.westeurope.logic.azure.com:443/workflows/3
         headers: { 
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(payload, captchaToken),
       });
       
       if (!response.ok) {
@@ -95,7 +109,7 @@ const submissionUrl ="https://prod-72.westeurope.logic.azure.com:443/workflows/3
       }
 
       console.log('Registration successfully submitted!');
-      alert('Registratie succesvol verzonden!');
+      // alert('Registratie succesvol verzonden!');
       navigate('/step-7');
       
     } catch (error) {
@@ -193,6 +207,11 @@ const submissionUrl ="https://prod-72.westeurope.logic.azure.com:443/workflows/3
           />
         </Form.Group>
       </div>
+
+      <HCaptcha
+        sitekey="7aa06fd6-476e-44f2-bad2-791805cc6266" // Replace with your hCaptcha site key
+        onVerify={handleCaptchaVerification}
+      />
 
       <div className="text-center mt-4">
         <PrevNextButtons

@@ -3,7 +3,7 @@ import React from 'react';
 
 const Footer = () => (
   <footer className="site-footer">
-    <p>© Little League {new Date().getFullYear()}</p>
+    <p>© NK Little League {new Date().getFullYear()} </p>
   </footer>
 );
 

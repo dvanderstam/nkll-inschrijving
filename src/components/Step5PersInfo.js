@@ -141,7 +141,6 @@ const Step5PersInfo = () => {
               type="tel"
               value={registrationData.nawInfo?.telefoonKind || ''}
               onChange={(e) => handleFieldChange('telefoonKind', e.target.value)}
-              required
               maxLength={11}
             />
           </Col>
