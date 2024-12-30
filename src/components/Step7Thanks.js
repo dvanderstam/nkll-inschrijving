@@ -36,7 +36,9 @@ const Step7Thanks = ({ title }) => {
         Wil je meer weten over het NK Little League, kijk dan op de website of volg ons op Facebook of Instagram.
       </p>
 
-      <p>Klopt er iets niet in je inschrijving, neem dan contact met ons op. Dat kan door te antwoorden op deze mail.</p>
+      <p>Binnen een paar minuten krijg je een bevestiging per mail. Let op deze kan in je spamfolder terecht komen!</p>
+      <p>Klopt er iets niet in je inschrijving, neem dan contact met ons op via <a href='mailto:organisatie@nklittleague.nl'>organisatie@nklittleague.nl</a>.</p>
+
       <p>Veel plezier en succes!</p>
       <p>Organisatie Little League Nederland</p>
       <Button variant="primary" onClick={handleNewRegistration}>
