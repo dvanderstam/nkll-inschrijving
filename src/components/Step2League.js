@@ -71,7 +71,7 @@ const Step2League = ({ title }) => {
                 onChange={handleDateChange}
                 required
                 max="2022-01-01" 
-                min="2008-12-31"
+                min="2008-01-01"
               />
             </Form.Group>
           </Col>
