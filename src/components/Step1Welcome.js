@@ -29,11 +29,9 @@ const Step1Welcome = ({ title }) => {
   return (
     <Container className="d-flex justify-content-center align-items-center">
       <Form style={{ width: '100%', maxWidth: '1000px' }}>
-        <h2 className="text-center display-4">
-          Welkom bij de inschrijving voor het NK Little League.
-        </h2>
+        <h2 className="text-center display-4">WE ZIJN ZO TERUG.        </h2>
 
-        <BaseballInput
+        {/* <BaseballInput
           label="Hoe heet je?"
           // placeholder="Vul je voornaam in"
           value={name}
@@ -93,7 +91,7 @@ const Step1Welcome = ({ title }) => {
           />
         </div> 
         </>
-          )}
+          )} */}
       </Form>
       
     </Container>
