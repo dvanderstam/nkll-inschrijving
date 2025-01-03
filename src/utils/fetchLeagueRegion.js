@@ -8,7 +8,7 @@ export async function fetchLeagueRegion(postcode) {
     console.log("Invalid postcode format. Expected format: 1234AB.");
     return { error: "Ongeldige postcode. Voer een geldige Nederlandse postcode in." };
   }
-
+//TODO oficilele postcode check van LL gebruiken
   // Only encode the postcode in the query string
   const urlPt1 = `https://services.arcgis.com/nSZVuSZjHpEZZbRo/ArcGIS/rest/services/Postcodepunten/FeatureServer/0/query?where=postcode6+%3D+%27${encodeURIComponent(postcode)}%27`;
   const urlPt2 = "&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&returnGeodetic=false&returnGeometry=true&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=28992&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=pjson";
