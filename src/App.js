@@ -1,5 +1,5 @@
 // App.js
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -34,21 +34,21 @@ const stepTitles = [
   "Bedankt"
 ];
 
-const AppContent = () => {
+const AppContent = ({ currentDate, openDate, closeDate }) => {
   const location = useLocation(); // Correct usage of useLocation to handle location updates
 
   return (
     <div className="d-flex flex-column min-vh-100">
-      <Header steps={stepTitles} />
+      <Header steps={stepTitles} currentDate={currentDate} openDate={openDate} closeDate={closeDate} />
       <main className="flex-grow-1">
         <TransitionGroup>
           <CSSTransition key={location.key} classNames="fade" timeout={300}>
             <Routes location={location}>
-              <Route path="/" element={<Step1Welcome />} />
+              <Route path="/" element={<Step1Welcome currentDate={currentDate} openDate={openDate} closeDate={closeDate} />} />
               <Route path="/step-2" element={<Step2League />} />
               <Route path="/step-3" element={<Step3RegioThuis/>} />
               <Route path="/step-4" element={<Step4RegioSchool/>} />
-              <Route path="/step-5" element={<Step5PersInfo />} />
+              <Route path="/step-5" element={<Step5PersInfo currentDate={currentDate} openDate={openDate} closeDate={closeDate} />} />
               <Route path="/step-6" element={<Step6Confirmation />} />
               <Route path="/step-7" element={<Step7Thanks />} />
             </Routes>
@@ -60,12 +60,18 @@ const AppContent = () => {
   );
 };
 
-const App = () => (
-  <RegistrationProvider>
-    <Router>
-      <AppContent />
-    </Router>
-  </RegistrationProvider>
-);
+const App = () => {
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [openDate, setOpenDate] = useState('2024-12-01'); // Example open date
+  const [closeDate, setCloseDate] = useState('2025-03-01'); // Example close date
+
+  return (
+    <RegistrationProvider>
+      <Router>
+        <AppContent currentDate={currentDate} openDate={openDate} closeDate={closeDate} />
+      </Router>
+    </RegistrationProvider>
+  );
+};
 
 export default App;

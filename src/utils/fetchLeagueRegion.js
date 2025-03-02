@@ -38,6 +38,7 @@ export async function fetchLeagueRegion(postcode) {
 
     const response2 = await fetch(fullUrl2);
     const data2 = await response2.json();
+    console.log("API Response for League:", data2);
 
     if (!data2.features || data2.features.length === 0) {
       console.error("No region found for this location.");

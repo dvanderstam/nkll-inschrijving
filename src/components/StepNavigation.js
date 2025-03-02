@@ -1,15 +1,21 @@
 // StepNavigation.js
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { useLocation } from 'react-router-dom';
 import '../style/step-navigation.css';
+import { handleOpenClose } from '../utils/OpenClose';
 
-const StepNavigation = ({ activeStep, steps }) => {
+const StepNavigation = ({ activeStep, steps, currentDate, openDate, closeDate }) => {
   const location = useLocation();
 
+  useEffect(() => {
+    handleOpenClose(currentDate, openDate, closeDate);
+  }, [currentDate, openDate, closeDate]);
+
   return (
-    <nav className="steps-nav">
+    <div className="open ">
+    <nav className=" steps-nav">
       {steps.map((title, index) => (
         <React.Fragment key={title}>
           <h3 
@@ -25,6 +31,7 @@ const StepNavigation = ({ activeStep, steps }) => {
         </React.Fragment>
       ))}
     </nav>
+    </div>
   );
 };
 
