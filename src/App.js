@@ -63,7 +63,7 @@ const AppContent = ({ currentDate, openDate, closeDate }) => {
 const App = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [openDate, setOpenDate] = useState('2024-12-01'); // Example open date
-  const [closeDate, setCloseDate] = useState('2025-03-01'); // Example close date
+  const [closeDate, setCloseDate] = useState('2025-06-01'); // Example close date
 
   return (
     <RegistrationProvider>
