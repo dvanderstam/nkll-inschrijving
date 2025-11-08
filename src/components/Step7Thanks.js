@@ -27,7 +27,7 @@ const Step7Thanks = ({ title }) => {
       <h2>{title}</h2>
       <p>Bedankt voor je inschrijving!</p>
       <p className="mt-3">
-        De inschrijving loopt tot 1 maart 2025. Je zult tot die tijd even niks van ons horen.
+        De inschrijving loopt tot 1 maart 2026. Je zult tot die tijd even niks van ons horen.
         <br />
         De regiocoördinator van je league neemt contact met je op over het programma in jouw regio.
       </p>

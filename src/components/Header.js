@@ -23,7 +23,7 @@ const Header = ({ steps, currentDate, openDate, closeDate }) => {
         <img src={logo} alt="Little League Logo" className="header-logo" />
         <div>
           <h1 className="header-title">Inschrijving <br/>NK Little League</h1>
-          <h2 className="header-subtitle">7, 8 en 9 juni 2025</h2>
+          <h2 className="header-subtitle">23, 24 en 25 mei 2026</h2>
         </div>
         <StepNavigation activeStep={activeStep} steps={steps} currentDate={currentDate} openDate={openDate} closeDate={closeDate} />
       </Container>

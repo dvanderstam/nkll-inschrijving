@@ -48,7 +48,7 @@ const submissionUrl='https://default213c2616dad04501a3443152a06f10.e9.environmen
       middleName: nawInfo?.tussenvoegsel || '',
       lastName: nawInfo?.achternaam || '',
       birthDate: nawInfo?.geboortedatum || '',
-      leeftijdReal: nawInfo?.leeftijdReal ? calculateAge(nawInfo.geboortedatum) : '',
+      leeftijdReal: nawInfo?.leeftijd || '',
       gender: nawInfo?.geslacht || '',
       playerPhone: nawInfo?.telefoonKind || '',
 
@@ -74,7 +74,7 @@ const submissionUrl='https://default213c2616dad04501a3443152a06f10.e9.environmen
       // Sports Information
       club: nawInfo?.club || '',
       team: nawInfo?.team || '',
-      age: nawInfo?.leeftijdLL || '',
+      age: leagueInfo?.leagueAge || '',
       sport: leagueInfo?.sportName || '',
       league: leagueInfo?.leaguePlay || '',
       year: leagueInfo?.year || '',
@@ -141,6 +141,7 @@ const submissionUrl='https://default213c2616dad04501a3443152a06f10.e9.environmen
               <li className="list-group-item"><b>Voornaam:</b> {registrationData.nawInfo?.naam}</li>
               <li className="list-group-item"><b>Tussenvoegsel:</b> {registrationData.nawInfo?.tussenvoegsel || '-'}</li>
               <li className="list-group-item"><b>Achternaam:</b> {registrationData.nawInfo?.achternaam}</li>
+              <li className="list-group-item"><b>Leeftijd:</b> {registrationData.nawInfo?.leeftijd}</li>
               <li className="list-group-item"><b>Geboortedatum:</b> {registrationData.nawInfo?.geboortedatum}</li>
               <li className="list-group-item"><b>Geslacht:</b> {registrationData.nawInfo?.geslacht}</li>
             </ul>
@@ -189,6 +190,7 @@ const submissionUrl='https://default213c2616dad04501a3443152a06f10.e9.environmen
             <ul className="list-group">
             <li className="list-group-item"><b>Regio:</b> {registrationData.regionInfo?.Thuisregio}</li>
             <li className="list-group-item"><b>School regio:</b> {registrationData.regionInfo?.Schoolregio}</li>
+            <li className="list-group-item"><b>LL Leeftijd:</b> {registrationData.leagueInfo?.leagueAge}</li>
               <li className="list-group-item"><b>League:</b> {registrationData.leagueInfo?.leaguePlay} {registrationData.leagueInfo?.sportName}</li>
             </ul>
           </Col>

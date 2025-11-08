@@ -12,7 +12,7 @@ const Step5PersInfo = () => {
   const [geslacht, setGeslacht] = useState(registrationData.nawInfo?.geslacht || '');
 
   useEffect(() => {
-    document.title = "Persoonlijke info";
+    document.title = "N.a.w. info";
 
     // Pre-fill naam from step1 if available
     if (!registrationData.nawInfo?.naam && registrationData.step1?.naam) {
