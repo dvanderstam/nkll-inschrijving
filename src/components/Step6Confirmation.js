@@ -5,8 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import { useRegistration } from '../utils/RegistrationContext';
 import HCaptcha from '@hcaptcha/react-hcaptcha';
 
-
-
 const Step6Confirmation = () => {
   const { registrationData, updateRegistrationData } = useRegistration();
   const [gdprChecked, setGdprChecked] = useState(false);
@@ -14,10 +12,11 @@ const Step6Confirmation = () => {
   const [captchaToken, setCaptchaToken] = useState(null); // Add state for captcha token
 
   const navigate = useNavigate();
-
-const submissionUrl ="https://prod-72.westeurope.logic.azure.com:443/workflows/3c9e385855934455a9f964fabcf34660/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ANW-EUvEDkkmdI4o2ndbQzi1DLLFD3u_7ziE6Px73UU";
+const submissionUrl='https://default213c2616dad04501a3443152a06f10.e9.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/6f4c414c6f2d492faa85d8b2ad590415/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=EJFtePxo-pmop2Wxhr4YLvDSyaxTFaKxuBu5Xyqzijc';
+  const submissionUrlReal =
+    'https://prod-72.westeurope.logic.azure.com:443/workflows/3c9e385855934455a9f964fabcf34660/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ANW-EUvEDkkmdI4o2ndbQzi1DLLFD3u_7ziE6Px73UU';
   useEffect(() => {
-    document.title = "Bevestiging Inschrijving";
+    document.title = 'Bevestiging Inschrijving';
   }, []);
 
   const handleGdprChange = (e) => {
@@ -29,30 +28,41 @@ const submissionUrl ="https://prod-72.westeurope.logic.azure.com:443/workflows/3
     setCaptchaToken(token);
   };
 
+  const calculateAge = (birthDateString) => {
+    const birthDate = new Date(birthDateString);
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDifference = today.getMonth() - birthDate.getMonth();
+    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  };
 
   const prepareSubmissionData = () => {
-    const { nawInfo, schoolInfo, regionInfo,leagueInfo } = registrationData;
-    
+    const { nawInfo, schoolInfo, regionInfo, leagueInfo } = registrationData;
+
     return {
       // Personal Information
       firstName: nawInfo?.naam || '',
       middleName: nawInfo?.tussenvoegsel || '',
       lastName: nawInfo?.achternaam || '',
       birthDate: nawInfo?.geboortedatum || '',
+      leeftijdReal: nawInfo?.leeftijdReal ? calculateAge(nawInfo.geboortedatum) : '',
       gender: nawInfo?.geslacht || '',
       playerPhone: nawInfo?.telefoonKind || '',
-      
+
       // Parent Contact
       parentEmail: nawInfo?.emailOuders || '',
       parentPhone: nawInfo?.telefoonOuders || '',
-      
+
       // Home Address
       homeStreet: nawInfo?.straat || '',
       homeNumber: nawInfo?.huisnummer || '',
       homePostal: nawInfo?.postcode || '',
       homeCity: nawInfo?.plaats || '',
       homeRegion: regionInfo?.Thuisregio || '',
-      
+
       // School Information
       schoolName: schoolInfo?.naam || '',
       schoolStreet: schoolInfo?.straat || '',
@@ -60,24 +70,22 @@ const submissionUrl ="https://prod-72.westeurope.logic.azure.com:443/workflows/3
       schoolPostal: schoolInfo?.postcode || '',
       schoolCity: schoolInfo?.plaats || '',
       schoolRegion: regionInfo?.Schoolregio || '',
-      
+
       // Sports Information
       club: nawInfo?.club || '',
       team: nawInfo?.team || '',
-      age: nawInfo?.leeftijd || '',
-      sport: leagueInfo?.sportName|| '',
+      age: nawInfo?.leeftijdLL || '',
+      sport: leagueInfo?.sportName || '',
       league: leagueInfo?.leaguePlay || '',
-      year:  leagueInfo?.year|| '',
+      year: leagueInfo?.year || '',
       month: leagueInfo?.month || '',
-      
-      
+
       // Consent
-      gdprConsent: gdprChecked
+      gdprConsent: gdprChecked,
     };
   };
 
   const handleNext = async (e) => {
-
     if (e) e.preventDefault();
     if (!captchaToken) {
       alert('Please complete the captcha');
@@ -90,20 +98,20 @@ const submissionUrl ="https://prod-72.westeurope.logic.azure.com:443/workflows/3
     }
 
     setIsSubmitting(true);
-    
+
     const payload = prepareSubmissionData();
-    
+
     console.log('Submitting simplified payload:', payload);
 
     try {
       const response = await fetch(submissionUrl, {
         method: 'POST',
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(payload, captchaToken),
       });
-      
+
       if (!response.ok) {
         throw new Error(`Server responded with status ${response.status}`);
       }
@@ -111,7 +119,6 @@ const submissionUrl ="https://prod-72.westeurope.logic.azure.com:443/workflows/3
       console.log('Registration successfully submitted!');
       // alert('Registratie succesvol verzonden!');
       navigate('/step-7');
-      
     } catch (error) {
       console.error('Error submitting registration:', error);
       alert('Er is een fout opgetreden bij het verzenden van uw registratie. Probeer het later opnieuw.');
@@ -208,12 +215,12 @@ const submissionUrl ="https://prod-72.westeurope.logic.azure.com:443/workflows/3
         </Form.Group>
       </div>
 
-      <HCaptcha className="text-center mt-4" 
+      <HCaptcha className="text-center mt-4"
         sitekey="7aa06fd6-476e-44f2-bad2-791805cc6266" // Replace with your hCaptcha site key
         onVerify={handleCaptchaVerification}
       />
 
-      <div  className="text-center mt-4">
+      <div className="text-center mt-4">
         <PrevNextButtons
           hasPrev={true}
           hasNext={true}
