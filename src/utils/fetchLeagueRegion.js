@@ -27,7 +27,7 @@ export async function fetchLeagueRegion(postcode) {
 
     if (!data1.features || data1.features.length === 0) {
       console.error("Postcode not found or incorrect.");
-      return { error: "Postcode niet gevonden of onjuist" };
+      return { error: "Postcode niet gevonden of onjuist", rawPostcodeResponse: data1, rawLeagueResponse: null };
     }
 
     const { x, y } = data1.features[0].geometry;
@@ -42,7 +42,7 @@ export async function fetchLeagueRegion(postcode) {
 
     if (!data2.features || data2.features.length === 0) {
       console.error("No region found for this location.");
-      return { error: "Geen regio gevonden voor deze locatie" };
+      return { error: "Geen regio gevonden voor deze locatie", rawPostcodeResponse: data1, rawLeagueResponse: data2 };
     }
 
     const league = data2.features[0].attributes.League;
@@ -50,9 +50,11 @@ export async function fetchLeagueRegion(postcode) {
 
     return {
       region: league,
+      rawPostcodeResponse: data1,
+      rawLeagueResponse: data2,
       };
   } catch (err) {
     console.error("An error occurred while fetching the data:", err);
-    return { error: "Er is een fout opgetreden bij het ophalen van de gegevens" };
+    return { error: "Er is een fout opgetreden bij het ophalen van de gegevens", rawPostcodeResponse: null, rawLeagueResponse: null, exception: err.message };
   }
 }

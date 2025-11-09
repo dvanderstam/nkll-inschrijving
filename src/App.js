@@ -30,7 +30,7 @@ const stepTitles = [
   "Regio",
   "School",
   "N.a.w info",
-    "Bevestiging",
+  "Bevestiging",
   "Bedankt"
 ];
 
@@ -50,7 +50,8 @@ const AppContent = ({ currentDate, openDate, closeDate }) => {
               <Route path="/step-4" element={<Step4RegioSchool/>} />
               <Route path="/step-5" element={<Step5PersInfo currentDate={currentDate} openDate={openDate} closeDate={closeDate} />} />
               <Route path="/step-6" element={<Step6Confirmation />} />
-              <Route path="/step-7" element={<Step7Thanks />} />
+              <Route path="/step-7" element={<Step7Thanks closeDate={closeDate} />} />
+              {/* Standalone page - not in menu, reachable via /standalone/regio-thuis */}
             </Routes>
           </CSSTransition>
         </TransitionGroup>
@@ -62,8 +63,8 @@ const AppContent = ({ currentDate, openDate, closeDate }) => {
 
 const App = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [openDate, setOpenDate] = useState('2025-09-01'); // Example open date
-  const [closeDate, setCloseDate] = useState('2026-03-01'); // Example close date
+  const [openDate, setOpenDate] = useState('2025-11-01'); // Example open date
+  const [closeDate, setCloseDate] = useState('2026-02-15'); // Correct ISO close date (yyyy-mm-dd)
 
   return (
     <RegistrationProvider>

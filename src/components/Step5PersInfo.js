@@ -10,6 +10,24 @@ import PrevNextButtons from './PrevNextButtons';
 const Step5PersInfo = () => {
   const { registrationData, updateRegistrationData } = useRegistration();
   const [geslacht, setGeslacht] = useState(registrationData.nawInfo?.geslacht || '');
+  const [emailValid, setEmailValid] = useState(() => {
+    const e = registrationData.nawInfo?.emailOuders || '';
+    return e ? /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e) : false;
+  });
+
+  const validateEmail = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+  const validatePhone = (phone) => {
+    return phone && phone.length >= 10;
+  };
+
+  const emailValue = registrationData.nawInfo?.emailOuders || '';
+  const emailShowError = emailValue !== '' && !emailValid;
+  const telefoonOudersValue = registrationData.nawInfo?.telefoonOuders || '';
+  const telefoonKindValue = registrationData.nawInfo?.telefoonKind || '';
+  const telefoonOudersShowError = telefoonOudersValue !== '' && !validatePhone(telefoonOudersValue);
+  const telefoonKindShowError = telefoonKindValue !== '' && !validatePhone(telefoonKindValue);
 
   useEffect(() => {
     document.title = "N.a.w. info";
@@ -24,17 +42,36 @@ const Step5PersInfo = () => {
   }, [registrationData, updateRegistrationData]);
 
   const handleFieldChange = async (fieldName, value) => {
-    await updateRegistrationData('nawInfo', { [fieldName]: value });
+    // Sanitize phone fields: keep digits only and limit to 11 characters
+    let newValue = value;
+    if (fieldName === 'telefoonOuders' || fieldName === 'telefoonKind') {
+      newValue = (value || '').toString().replace(/\D/g, '').slice(0, 11);
+    }
+    // Sanitize email: trim, lowercase, remove invalid chars, allow only one '@'
+    if (fieldName === 'emailOuders') {
+      let v = (value || '').toString().trim().toLowerCase();
+      v = v.replace(/\s+/g, ''); // remove internal spaces
+      v = v.replace(/[^a-z0-9@._%+\-]/g, ''); // keep common email chars
+      const firstAt = v.indexOf('@');
+      if (firstAt !== -1) {
+        // remove any additional '@' after the first
+        v = v.slice(0, firstAt + 1) + v.slice(firstAt + 1).replace(/@/g, '');
+      }
+      newValue = v;
+      setEmailValid(validateEmail(newValue));
+    }
+    await updateRegistrationData('nawInfo', { [fieldName]: newValue });
   };
 
   const isNextEnabled =
     registrationData.nawInfo?.naam &&
     registrationData.nawInfo?.achternaam &&
     geslacht &&
-    registrationData.nawInfo?.emailOuders &&
-    registrationData.nawInfo?.telefoonOuders &&
+    emailValid &&
+    validatePhone(telefoonOudersValue) &&
     registrationData.nawInfo?.club &&
-    registrationData.nawInfo?.team;
+    registrationData.nawInfo?.team &&
+    (!telefoonKindValue || validatePhone(telefoonKindValue)); // Als er een kindnummer is ingevuld, moet het geldig zijn
 
   return (
     <Container className="d-flex justify-content-center align-items-center">
@@ -122,8 +159,15 @@ const Step5PersInfo = () => {
               type="email"
               value={registrationData.nawInfo?.emailOuders || ''}
               onChange={(e) => handleFieldChange('emailOuders', e.target.value)}
+              inputMode="email"
+              autoComplete="email"
+              isInvalid={emailShowError}
+              aria-invalid={emailShowError}
               required
             />
+            {emailShowError && (
+              <Form.Text className="text-danger">Vul een geldig e-mailadres in.</Form.Text>
+            )}
           </Col>
           <Col>
             <BaseballInput
@@ -131,9 +175,15 @@ const Step5PersInfo = () => {
               type="tel"
               value={registrationData.nawInfo?.telefoonOuders || ''}
               onChange={(e) => handleFieldChange('telefoonOuders', e.target.value)}
+              inputMode="numeric"
+              isInvalid={telefoonOudersShowError}
+              aria-invalid={telefoonOudersShowError}
               required
               maxLength={11}
             />
+            {telefoonOudersShowError && (
+              <Form.Text className="text-danger">Telefoonnummer moet minimaal 10 cijfers bevatten</Form.Text>
+            )}
           </Col>
           <Col>
             <BaseballInput
@@ -141,8 +191,14 @@ const Step5PersInfo = () => {
               type="tel"
               value={registrationData.nawInfo?.telefoonKind || ''}
               onChange={(e) => handleFieldChange('telefoonKind', e.target.value)}
+              inputMode="numeric"
+              isInvalid={telefoonKindShowError}
+              aria-invalid={telefoonKindShowError}
               maxLength={11}
             />
+            {telefoonKindShowError && (
+              <Form.Text className="text-danger">Telefoonnummer moet minimaal 10 cijfers bevatten</Form.Text>
+            )}
           </Col>
         </Row>
 

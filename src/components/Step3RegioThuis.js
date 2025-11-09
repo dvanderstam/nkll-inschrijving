@@ -13,13 +13,11 @@ const Step3RegioThuis= ({ title }) => {
   const { registrationData, updateRegistrationData } = useRegistration();
   const [isPostalCodeValid, setIsPostalCodeValid] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-    const [errorMessage, setErrorMessage] = useState(''); // Add state for error message
+  const [errorMessage, setErrorMessage] = useState(''); // Add state for error message
   
   useEffect(() => {
-
     document.title = "Regio Thuis - Inschrijving NK Little league"; // Set the document title here
   },[]);
-
 
   const handleFieldChange = async (fieldName, value) => {
     const updatedValue = fieldName === 'postcode' ? value.toUpperCase() : value;
@@ -29,8 +27,6 @@ const Step3RegioThuis= ({ title }) => {
       await updateRegistrationData('nawInfo', { straat: '', plaats: '', huisnummer: '', postcode: '' });
     }
   };
-
- 
 
   const fetchPostalCode = async () => {
     const { postcode, huisnummer } = registrationData.nawInfo || {};

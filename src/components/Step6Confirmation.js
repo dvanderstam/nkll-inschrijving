@@ -128,6 +128,16 @@ const submissionUrl='https://default213c2616dad04501a3443152a06f10.e9.environmen
     }
   };
 
+  const formatDate = (dateString) => {
+    if (!dateString) return '-';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('nl-NL', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+  };
+
   return (
     <Container className="step-container">
       <h2>Bevestiging Inschrijving</h2>
@@ -142,12 +152,24 @@ const submissionUrl='https://default213c2616dad04501a3443152a06f10.e9.environmen
               <li className="list-group-item"><b>Tussenvoegsel:</b> {registrationData.nawInfo?.tussenvoegsel || '-'}</li>
               <li className="list-group-item"><b>Achternaam:</b> {registrationData.nawInfo?.achternaam}</li>
               <li className="list-group-item"><b>Leeftijd:</b> {registrationData.nawInfo?.leeftijd}</li>
-              <li className="list-group-item"><b>Geboortedatum:</b> {registrationData.nawInfo?.geboortedatum}</li>
+              <li className="list-group-item"><b>Geboortedatum:</b> {formatDate(registrationData.nawInfo?.geboortedatum)}</li>
               <li className="list-group-item"><b>Geslacht:</b> {registrationData.nawInfo?.geslacht}</li>
             </ul>
           </Col>
+                   <Col>
+            <h5>Contact</h5>
+            <ul className="list-group">
+              <li className="list-group-item"><b>Email Ouders:</b> {registrationData.nawInfo?.emailOuders}</li>
+              <li className="list-group-item"><b>Telefoon Ouders:</b> {registrationData.nawInfo?.telefoonOuders}</li>
+              <li className="list-group-item"><b>Telefoon Kind:</b> {registrationData.nawInfo?.telefoonKind}</li>
+            </ul>
+          </Col>
+          
+        </Row>
+
+        <Row className="mt-4" xs={1} md={2}>
           <Col>
-            <h5>Thuisadres</h5>
+            <h5>Thuis</h5>
             <ul className="list-group">
               <li className="list-group-item"><b>Straat:</b> {registrationData.nawInfo?.straat}</li>
               <li className="list-group-item"><b>Huisnummer:</b> {registrationData.nawInfo?.huisnummer}</li>
@@ -155,11 +177,8 @@ const submissionUrl='https://default213c2616dad04501a3443152a06f10.e9.environmen
               <li className="list-group-item"><b>Plaats:</b> {registrationData.nawInfo?.plaats}</li>
             </ul>
           </Col>
-        </Row>
-
-        <Row className="mt-4" xs={1} md={2}>
           <Col>
-            <h5>Schoolgegevens</h5>
+            <h5>School</h5>
             <ul className="list-group">
               <li className="list-group-item"><b>School:</b> {registrationData.schoolInfo?.naam}</li>
               <li className="list-group-item"><b>Straat:</b> {registrationData.schoolInfo?.straat}</li>
@@ -168,14 +187,7 @@ const submissionUrl='https://default213c2616dad04501a3443152a06f10.e9.environmen
               <li className="list-group-item"><b>Plaats:</b> {registrationData.schoolInfo?.plaats}</li>
             </ul>
           </Col>
-          <Col>
-            <h5>Contact</h5>
-            <ul className="list-group">
-              <li className="list-group-item"><b>Email Ouders:</b> {registrationData.nawInfo?.emailOuders}</li>
-              <li className="list-group-item"><b>Telefoon Ouders:</b> {registrationData.nawInfo?.telefoonOuders}</li>
-              <li className="list-group-item"><b>Telefoon Kind:</b> {registrationData.nawInfo?.telefoonKind}</li>
-            </ul>
-          </Col>
+ 
         </Row>
         <Row className='mt-4' xs={1} md={2}>
           <Col>
@@ -186,7 +198,7 @@ const submissionUrl='https://default213c2616dad04501a3443152a06f10.e9.environmen
           </ul>
           </Col>
         <Col>
-            <h5>NK Little League:</h5>
+            <h5>Indeling voor NK Little League</h5>
             <ul className="list-group">
             <li className="list-group-item"><b>Regio:</b> {registrationData.regionInfo?.Thuisregio}</li>
             <li className="list-group-item"><b>School regio:</b> {registrationData.regionInfo?.Schoolregio}</li>
