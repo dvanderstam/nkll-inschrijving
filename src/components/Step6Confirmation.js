@@ -12,8 +12,8 @@ const Step6Confirmation = () => {
   const [captchaToken, setCaptchaToken] = useState(null); // Add state for captcha token
 
   const navigate = useNavigate();
-const submissionUrl='https://default213c2616dad04501a3443152a06f10.e9.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/6f4c414c6f2d492faa85d8b2ad590415/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=EJFtePxo-pmop2Wxhr4YLvDSyaxTFaKxuBu5Xyqzijc';
-  const submissionUrlReal =
+// const submissionUrl='https://default213c2616dad04501a3443152a06f10.e9.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/6f4c414c6f2d492faa85d8b2ad590415/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=EJFtePxo-pmop2Wxhr4YLvDSyaxTFaKxuBu5Xyqzijc';
+  const submissionUrl =
     'https://prod-72.westeurope.logic.azure.com:443/workflows/3c9e385855934455a9f964fabcf34660/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ANW-EUvEDkkmdI4o2ndbQzi1DLLFD3u_7ziE6Px73UU';
   useEffect(() => {
     document.title = 'Bevestiging Inschrijving';

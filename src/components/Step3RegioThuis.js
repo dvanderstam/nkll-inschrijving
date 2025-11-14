@@ -56,10 +56,10 @@ const Step3RegioThuis= ({ title }) => {
           // Fetch and set the home region
           const regionData = await fetchLeagueRegion(postcode);
           if (regionData && regionData.region) {
-            updateRegistrationData('regionInfo', { Thuisregio: regionData.region });
+            await updateRegistrationData('regionInfo', { Thuisregio: regionData.region });
             console.log("Fetched Thuisregio:", regionData.region);
-          }else{
-            console.log("Fetched Thuisregio:", regionData.region);
+          } else {
+            console.log("Fetched Thuisregio:", regionData?.region);
           }
 
           setIsPostalCodeValid(true);
@@ -80,10 +80,10 @@ const Step3RegioThuis= ({ title }) => {
   };
 
   const isNextEnabled =
-    registrationData.nawInfo.straat &&
-    registrationData.nawInfo.huisnummer &&
-    registrationData.nawInfo.postcode &&
-    registrationData.nawInfo.plaats &&
+    (registrationData.nawInfo?.straat) &&
+    (registrationData.nawInfo?.huisnummer) &&
+    (registrationData.nawInfo?.postcode) &&
+    (registrationData.nawInfo?.plaats) &&
     isPostalCodeValid;
 
   return (
@@ -144,13 +144,15 @@ const Step3RegioThuis= ({ title }) => {
 
         {/* Region display */}
         {isPostalCodeValid ? (
-        registrationData.regionInfo.Schoolregio && (
-          <h5 className="text-center mt-4">Thuisregio: {registrationData.regionInfo.Thuisregio}</h5>
-        )
-      ) : (
-        <span style={{ color: 'red' }}>{errorMessage}</span>
-      )}
-      
+          registrationData.regionInfo?.Thuisregio && (
+            <h5 className="text-center mt-4">
+              Thuisregio: {registrationData.regionInfo.Thuisregio}
+            </h5>
+          )
+        ) : (
+          <span style={{ color: 'red' }}>{errorMessage}</span>
+        )}
+
         {/* Navigation Buttons */}
         <div className="text-center mt-4">
           <PrevNextButtons
