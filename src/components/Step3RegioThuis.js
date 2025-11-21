@@ -153,7 +153,7 @@ const Step3RegioThuis= ({ title }) => {
 
         {/* Region display */}
         {isRegionLoading && !registrationData.regionInfo?.Thuisregio && isPostalCodeValid && (
-          <h5 className="text-center mt-4">Thuisregio wordt opgehaald{regionDots}</h5>
+          <h5 className="text-center mt-4">Regio wordt opgehaald{regionDots}</h5>
         )}
         {isPostalCodeValid ? (
           registrationData.regionInfo?.Thuisregio && (

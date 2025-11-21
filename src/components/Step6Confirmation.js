@@ -48,7 +48,7 @@ const Step6Confirmation = () => {
       middleName: nawInfo?.tussenvoegsel || '',
       lastName: nawInfo?.achternaam || '',
       birthDate: nawInfo?.geboortedatum || '',
-      leeftijdReal: nawInfo?.leeftijd || '',
+      leeftijd: nawInfo?.leeftijd || '',
       gender: nawInfo?.geslacht || '',
       playerPhone: nawInfo?.telefoonKind || '',
 

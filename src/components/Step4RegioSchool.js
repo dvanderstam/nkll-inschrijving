@@ -149,7 +149,7 @@ const Step4RegioSchool= ({ title }) => {
 
         {/* Region display */}
         {isRegionLoading && !registrationData.regionInfo?.Schoolregio && isPostalCodeValid && (
-          <h5 className="text-center mt-4">Schoolregio wordt opgehaald{regionDots}</h5>
+          <h5 className="text-center mt-4">Regio wordt opgehaald{regionDots}</h5>
         )}
         {isPostalCodeValid ? (
           registrationData.regionInfo.Schoolregio && (

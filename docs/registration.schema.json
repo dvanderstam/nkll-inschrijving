@@ -1,0 +1,94 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nklittleleague.nl/schema/registration.json",
+  "title": "NK Little League Registration",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "nawInfo": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "naam": { "type": "string", "minLength": 1 },
+        "tussenvoegsel": { "type": "string" },
+        "achternaam": { "type": "string", "minLength": 1 },
+        "geslacht": { "type": "string", "enum": ["jongen", "meisje", "nvt"] },
+        "geboortedatum": { "type": "string", "format": "date" },
+        "leeftijd": { "type": "integer", "minimum": 0 },
+        "emailOuders": { "type": "string", "format": "email" },
+        "telefoonOuders": {
+          "type": "string",
+          "minLength": 10,
+          "pattern": "^[0-9+()\\-\\s]{10,}$"
+        },
+        "telefoonKind": {
+          "type": "string",
+          "pattern": "^[0-9+()\\-\\s]{10,}$"
+        },
+        "club": { "type": "string", "minLength": 1 },
+        "team": { "type": "string", "minLength": 1 },
+        "straat": { "type": "string" },
+        "huisnummer": { "type": "string", "maxLength": 4 },
+        "postcode": {
+          "type": "string",
+          "pattern": "^[0-9]{4}[A-Z]{2}$"
+        },
+        "plaats": { "type": "string" }
+      },
+      "required": [
+        "naam",
+        "achternaam",
+        "geslacht",
+        "emailOuders",
+        "telefoonOuders",
+        "club",
+        "team",
+        "straat",
+        "huisnummer",
+        "postcode",
+        "plaats"
+      ]
+    },
+    "schoolInfo": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "naam": { "type": "string", "minLength": 1 },
+        "straat": { "type": "string" },
+        "huisnummer": { "type": "string", "maxLength": 4 },
+        "postcode": {
+          "type": "string",
+          "pattern": "^[0-9]{4}[A-Z]{2}$"
+        },
+        "plaats": { "type": "string" }
+      },
+      "required": ["naam", "straat", "huisnummer", "postcode", "plaats"]
+    },
+    "leagueInfo": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "sportCode": { "type": "string", "enum": ["1", "2"] }, // 1 = Honkbal, 2 = Softbal
+        "year": { "type": "integer" },
+        "month": { "type": "integer", "minimum": 1, "maximum": 12 },
+        "leagueAge": { "type": "integer", "minimum": 4, "maximum": 16 },
+        "leaguePlay": { "type": "string" },
+        "message": { "type": "string" },
+        "sportName": { "type": "string" }
+      },
+      "required": ["sportCode", "leagueAge"]
+    },
+    "regionInfo": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Thuisregio": { "type": "string" },
+        "Schoolregio": { "type": "string" }
+      }
+    },
+    "gdprConsent": { "type": "boolean", "const": true },
+    "captchaToken": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" }
+  },
+  "required": ["nawInfo", "leagueInfo", "regionInfo", "gdprConsent", "captchaToken", "timestamp"]
+}
