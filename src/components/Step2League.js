@@ -23,7 +23,6 @@ const Step2League = ({ title }) => {
     const birthMonth = birthDate.getMonth() + 1;
     const birthYear = birthDate.getFullYear();
     const calculatedAge = calculateAge(selectedDate);
-//TODO: 2026 leeftijd uit age calculator halen ipv gewone leeftijd
     updateRegistrationData('nawInfo', { geboortedatum: selectedDate, leeftijd: calculatedAge });
     setMonth(birthMonth);
     setYear(birthYear);
