@@ -14,10 +14,24 @@ const Step3RegioThuis= ({ title }) => {
   const [isPostalCodeValid, setIsPostalCodeValid] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(''); // Add state for error message
-  
+  const [isRegionLoading, setIsRegionLoading] = useState(false);
+  const [regionDots, setRegionDots] = useState('');
+
   useEffect(() => {
     document.title = "Regio Thuis - Inschrijving NK Little league"; // Set the document title here
   },[]);
+
+  useEffect(() => {
+    let interval;
+    if (isRegionLoading && !registrationData.regionInfo?.Thuisregio) {
+      interval = setInterval(() => {
+        setRegionDots(d => (d.length >= 3 ? '' : d + '.'));
+      }, 400);
+    } else {
+      setRegionDots('');
+    }
+    return () => interval && clearInterval(interval);
+  }, [isRegionLoading, registrationData.regionInfo?.Thuisregio]);
 
   const handleFieldChange = async (fieldName, value) => {
     const updatedValue = fieldName === 'postcode' ? value.toUpperCase() : value;
@@ -54,13 +68,12 @@ const Step3RegioThuis= ({ title }) => {
           await handleFieldChange('plaats', fetchedCity);
 
           // Fetch and set the home region
+          setIsRegionLoading(true);
           const regionData = await fetchLeagueRegion(postcode);
           if (regionData && regionData.region) {
             await updateRegistrationData('regionInfo', { Thuisregio: regionData.region });
-            console.log("Fetched Thuisregio:", regionData.region);
-          } else {
-            console.log("Fetched Thuisregio:", regionData?.region);
           }
+          setIsRegionLoading(false);
 
           setIsPostalCodeValid(true);
           setErrorMessage(''); // Clear error message on success
@@ -79,12 +92,8 @@ const Step3RegioThuis= ({ title }) => {
     }
   };
 
-  const isNextEnabled =
-    (registrationData.nawInfo?.straat) &&
-    (registrationData.nawInfo?.huisnummer) &&
-    (registrationData.nawInfo?.postcode) &&
-    (registrationData.nawInfo?.plaats) &&
-    isPostalCodeValid;
+  const thuisregioVisible = isPostalCodeValid && !!registrationData.regionInfo?.Thuisregio;
+  const isNextEnabled = thuisregioVisible;
 
   return (
     <Container className="d-flex justify-content-center align-items-center">
@@ -143,6 +152,9 @@ const Step3RegioThuis= ({ title }) => {
         </Form.Group>
 
         {/* Region display */}
+        {isRegionLoading && !registrationData.regionInfo?.Thuisregio && isPostalCodeValid && (
+          <h5 className="text-center mt-4">Thuisregio wordt opgehaald{regionDots}</h5>
+        )}
         {isPostalCodeValid ? (
           registrationData.regionInfo?.Thuisregio && (
             <h5 className="text-center mt-4">

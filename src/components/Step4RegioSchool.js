@@ -13,8 +13,9 @@ const Step4RegioSchool= ({ title }) => {
   const { registrationData, updateRegistrationData } = useRegistration();
   const [isPostalCodeValid, setIsPostalCodeValid] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(''); // Add state for error message
-
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isRegionLoading, setIsRegionLoading] = useState(false);
+  const [regionDots, setRegionDots] = useState('');
 
   const handleFieldChange = async (fieldName, value) => {
     const updatedValue = fieldName === 'postcode' ? value.toUpperCase() : value;
@@ -25,13 +26,22 @@ const Step4RegioSchool= ({ title }) => {
     }
   };
   useEffect(() => {
-    document.title = "Regio School - Inschrijving NK Little league"; // Set the document title here
+    document.title = "Regio School - Inschrijving NK Little league";
   },[]);
- 
+  useEffect(() => {
+    let interval;
+    if (isRegionLoading && !registrationData.regionInfo?.Schoolregio) {
+      interval = setInterval(() => {
+        setRegionDots(d => (d.length >= 3 ? '' : d + '.'));
+      }, 400);
+    } else {
+      setRegionDots('');
+    }
+    return () => interval && clearInterval(interval);
+  }, [isRegionLoading, registrationData.regionInfo?.Schoolregio]);
 
   const fetchPostalCode = async () => {
     const { postcode, huisnummer } = registrationData.schoolInfo || {};
-
     if (postcode && huisnummer) {
       const url = `https://api.pdok.nl/bzk/locatieserver/search/v3_1/free?fq=postcode:${postcode}&q=huis_nlt:${huisnummer}`;
       try {
@@ -40,7 +50,7 @@ const Step4RegioSchool= ({ title }) => {
 
         if (!response.ok) {
           setIsPostalCodeValid(false);
-          setErrorMessage('Verkeerde postcode of huisnummer'); // Update error message
+          setErrorMessage('Verkeerde postcode of huisnummer');
           return;
         }
 
@@ -53,36 +63,31 @@ const Step4RegioSchool= ({ title }) => {
           await handleFieldChange('straat', fetchedStreet);
           await handleFieldChange('plaats', fetchedCity);
 
-          // Fetch and set the school region
+          setIsRegionLoading(true);
           const regionData = await fetchLeagueRegion(postcode);
           if (regionData && regionData.region) {
-            updateRegistrationData('regionInfo', { Schoolregio: regionData.region });
-            console.log("Fetched Schoolregio:", regionData.region);
+            await updateRegistrationData('regionInfo', { Schoolregio: regionData.region });
           }
+          setIsRegionLoading(false);
 
           setIsPostalCodeValid(true);
-          setErrorMessage(''); // Clear error message on success
+          setErrorMessage('');
         } else {
           setIsPostalCodeValid(false);
-          setErrorMessage('Verkeerde postcode of huisnummer'); // Update error message
+          setErrorMessage('Verkeerde postcode of huisnummer');
         }
       } catch (error) {
-      console.error('Error fetching address data:', error);
+        console.error('Error fetching address data:', error);
         setErrorMessage('Er is iets misgegaan bij het ophalen van de adresgegevens');
-        setIsPostalCodeValid(false);
+        setIsRegionLoading(false);
       } finally {
         setIsLoading(false);
       }
     }
   };
 
-  const isNextEnabled =
-    registrationData.schoolInfo.naam &&
-    registrationData.schoolInfo.straat &&
-    registrationData.schoolInfo.huisnummer &&
-    registrationData.schoolInfo.postcode &&
-    registrationData.schoolInfo.plaats &&
-    isPostalCodeValid;
+  const schoolregioVisible = isPostalCodeValid && !!registrationData.regionInfo?.Schoolregio;
+  const isNextEnabled = schoolregioVisible;
 
   return (
     <Container className="d-flex justify-content-center align-items-center">
@@ -94,7 +99,6 @@ const Step4RegioSchool= ({ title }) => {
         <Row className="mb-3" xs={1} md={3}>
           <BaseballInput
             label="Op welke school zit je?"
-            // placeholder="Vul de naam van je school in"
             value={registrationData.schoolInfo.naam || ''}
             onChange={(e) => handleFieldChange('naam', e.target.value)}
             required
@@ -103,7 +107,6 @@ const Step4RegioSchool= ({ title }) => {
             <BaseballInput
               label="Wat is de postcode van je school"
               type="postalcode"
-              // placeholder="Bijv. 1234AB"
               value={registrationData.schoolInfo.postcode || ''}
               onChange={(e) => handleFieldChange('postcode', e.target.value)}
               isInvalid={!isPostalCodeValid}
@@ -114,7 +117,6 @@ const Step4RegioSchool= ({ title }) => {
           <Col>
             <BaseballInput
               label="Wat is het huisnummer van je school"
-              // placeholder="Bijv. 123A"
               value={registrationData.schoolInfo.huisnummer || ''}
               onChange={(e) => handleFieldChange('huisnummer', e.target.value)}
               onBlur={fetchPostalCode}
@@ -129,7 +131,6 @@ const Step4RegioSchool= ({ title }) => {
             <Col>
               <BaseballInput
                 label="Straat"
-                // placeholder="Vul je straatnaam in"
                 value={registrationData.schoolInfo.straat || ''}
                 onChange={(e) => handleFieldChange('straat', e.target.value)}
                 readOnly
@@ -138,7 +139,6 @@ const Step4RegioSchool= ({ title }) => {
             <Col>
               <BaseballInput
                 label="Plaats"
-                // placeholder="Bijv. Amsterdam"
                 value={registrationData.schoolInfo.plaats || ''}
                 onChange={(e) => handleFieldChange('plaats', e.target.value)}
                 readOnly
@@ -148,16 +148,20 @@ const Step4RegioSchool= ({ title }) => {
         </Form.Group>
 
         {/* Region display */}
+        {isRegionLoading && !registrationData.regionInfo?.Schoolregio && isPostalCodeValid && (
+          <h5 className="text-center mt-4">Schoolregio wordt opgehaald{regionDots}</h5>
+        )}
         {isPostalCodeValid ? (
-        registrationData.regionInfo.Schoolregio && (
-          <h5 className="text-center mt-4">Schoolregio: {registrationData.regionInfo.Schoolregio}</h5>
-        )
-      ) : (
-        <span style={{ color: 'red' }}>{errorMessage}</span>
-      )}
+          registrationData.regionInfo.Schoolregio && (
+            <h5 className="text-center mt-4">
+              Schoolregio: {registrationData.regionInfo.Schoolregio}
+            </h5>
+          )
+        ) : (
+          <span style={{ color: 'red' }}>{errorMessage}</span>
+        )}
 
-        {/* Nav
-        igation Buttons */}
+        {/* Navigation Buttons */}
         <div className="text-center mt-4">
           <PrevNextButtons
             hasPrev={true}
