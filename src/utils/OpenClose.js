@@ -11,6 +11,6 @@ export const handleOpenClose = (currentDate, openDate, closeDate) => {
     document.querySelectorAll('.closed').forEach(el => el.style.display = 'none');
   } else {
     document.querySelectorAll('.open').forEach(el => el.style.display = 'none');
-    document.querySelectorAll('.closed').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.closed').forEach(el => el.style.display = 'block');
   }
 };

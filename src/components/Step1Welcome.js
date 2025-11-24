@@ -31,7 +31,7 @@ const Step1Welcome = ({ title, currentDate, openDate, closeDate }) => {
     <Container className="d-flex justify-content-center align-items-center">
       <div className="closed">
         <h4 className="text-center display-1">
-          De inschrijving voor het NK Little League {new Date().getFullYear()} is gesloten
+          De inschrijving voor het NK Little League is gesloten.
         </h4>
       </div>
       <div className="open">	

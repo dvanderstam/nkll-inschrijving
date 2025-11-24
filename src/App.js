@@ -63,7 +63,7 @@ const AppContent = ({ currentDate, openDate, closeDate }) => {
 
 const App = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [openDate, setOpenDate] = useState('2025-11-01'); // Example open date
+  const [openDate, setOpenDate] = useState('2025-12-01'); // Example open date
   const [closeDate, setCloseDate] = useState('2026-02-15'); // Correct ISO close date (yyyy-mm-dd)
 
   return (
