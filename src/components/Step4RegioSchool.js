@@ -7,99 +7,65 @@ import Container from 'react-bootstrap/Container';
 import BaseballInput from '../utils/BaseballInput';
 import { useRegistration } from '../utils/RegistrationContext';
 import PrevNextButtons from './PrevNextButtons';
-import { fetchLeagueRegion } from '../utils/fetchLeagueRegion';
+import { usePostalCodeValidation } from '../hooks/usePostalCodeValidation';
+import { useLoadingDots } from '../hooks/useLoadingDots';
 
-const Step4RegioSchool= ({ title }) => {
+const Step4RegioSchool = ({ title }) => {
   const { registrationData, updateRegistrationData } = useRegistration();
-  const [isPostalCodeValid, setIsPostalCodeValid] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const { isValid, isLoading, errorMessage, validatePostalCode } = usePostalCodeValidation();
   const [isRegionLoading, setIsRegionLoading] = useState(false);
-  const [regionDots, setRegionDots] = useState('');
+  const regionDots = useLoadingDots(isRegionLoading && !registrationData.regionInfo?.Schoolregio);
+
+  useEffect(() => {
+    document.title = "Regio School - Inschrijving NK Little league";
+  }, []);
 
   const handleFieldChange = async (fieldName, value) => {
     const updatedValue = fieldName === 'postcode' ? value.toUpperCase() : value;
     await updateRegistrationData('schoolInfo', { [fieldName]: updatedValue });
 
     if ((fieldName === 'postcode' || fieldName === 'huisnummer') && !updatedValue) {
-      await updateRegistrationData('schoolInfo', { straat: '', plaats: '', huisnummer: '', postcode: '' });
+      await updateRegistrationData('schoolInfo', { 
+        straat: '', 
+        plaats: '', 
+        huisnummer: '', 
+        postcode: '' 
+      });
     }
   };
-  useEffect(() => {
-    document.title = "Regio School - Inschrijving NK Little league";
-  },[]);
-  useEffect(() => {
-    let interval;
-    if (isRegionLoading && !registrationData.regionInfo?.Schoolregio) {
-      interval = setInterval(() => {
-        setRegionDots(d => (d.length >= 3 ? '' : d + '.'));
-      }, 400);
-    } else {
-      setRegionDots('');
-    }
-    return () => interval && clearInterval(interval);
-  }, [isRegionLoading, registrationData.regionInfo?.Schoolregio]);
 
   const fetchPostalCode = async () => {
     const { postcode, huisnummer } = registrationData.schoolInfo || {};
-    if (postcode && huisnummer) {
-      const url = `https://api.pdok.nl/bzk/locatieserver/search/v3_1/free?fq=postcode:${postcode}&q=huis_nlt:${huisnummer}`;
-      try {
-        setIsLoading(true);
-        const response = await fetch(url);
+    
+    if (!postcode || !huisnummer) return;
 
-        if (!response.ok) {
-          setIsPostalCodeValid(false);
-          setErrorMessage('Verkeerde postcode of huisnummer');
-          return;
-        }
+    setIsRegionLoading(true);
+    const result = await validatePostalCode(postcode, huisnummer, true);
+    setIsRegionLoading(false);
 
-        const data = await response.json();
-
-        if (data.response.docs.length > 0) {
-          const fetchedStreet = data.response.docs[0].straatnaam;
-          const fetchedCity = data.response.docs[0].gemeentenaam;
-
-          await handleFieldChange('straat', fetchedStreet);
-          await handleFieldChange('plaats', fetchedCity);
-
-          setIsRegionLoading(true);
-          const regionData = await fetchLeagueRegion(postcode);
-          if (regionData && regionData.region) {
-            await updateRegistrationData('regionInfo', { Schoolregio: regionData.region });
-          }
-          setIsRegionLoading(false);
-
-          setIsPostalCodeValid(true);
-          setErrorMessage('');
-        } else {
-          setIsPostalCodeValid(false);
-          setErrorMessage('Verkeerde postcode of huisnummer');
-        }
-      } catch (error) {
-        console.error('Error fetching address data:', error);
-        setErrorMessage('Er is iets misgegaan bij het ophalen van de adresgegevens');
-        setIsRegionLoading(false);
-      } finally {
-        setIsLoading(false);
+    if (result.success) {
+      const { straat, plaats, region } = result.data;
+      await handleFieldChange('straat', straat);
+      await handleFieldChange('plaats', plaats);
+      
+      if (region) {
+        await updateRegistrationData('regionInfo', { Schoolregio: region });
       }
     }
   };
 
-  const schoolregioVisible = isPostalCodeValid && !!registrationData.regionInfo?.Schoolregio;
-  const isNextEnabled = schoolregioVisible;
+  const isNextEnabled = isValid && !!registrationData.regionInfo?.Schoolregio;
 
   return (
     <Container className="d-flex justify-content-center align-items-center">
       <Form style={{ width: '100%', maxWidth: '1000px' }}>
         <h2 className="text-center mb-4">{title}</h2>
 
-        {/* Address Section */}
         <h5 className="text-center mt-4">Adresgegevens</h5>
         <Row className="mb-3" xs={1} md={3}>
           <BaseballInput
             label="Op welke school zit je?"
-            value={registrationData.schoolInfo.naam || ''}
+            value={registrationData.schoolInfo?.naam || ''}
             onChange={(e) => handleFieldChange('naam', e.target.value)}
             required
           />
@@ -107,9 +73,9 @@ const Step4RegioSchool= ({ title }) => {
             <BaseballInput
               label="Wat is de postcode van je school"
               type="postalcode"
-              value={registrationData.schoolInfo.postcode || ''}
+              value={registrationData.schoolInfo?.postcode || ''}
               onChange={(e) => handleFieldChange('postcode', e.target.value)}
-              isInvalid={!isPostalCodeValid}
+              isInvalid={!isValid}
               required  
               maxLength={6} 
             />
@@ -117,7 +83,7 @@ const Step4RegioSchool= ({ title }) => {
           <Col>
             <BaseballInput
               label="Wat is het huisnummer van je school"
-              value={registrationData.schoolInfo.huisnummer || ''}
+              value={registrationData.schoolInfo?.huisnummer || ''}
               onChange={(e) => handleFieldChange('huisnummer', e.target.value)}
               onBlur={fetchPostalCode}
               required
@@ -126,12 +92,12 @@ const Step4RegioSchool= ({ title }) => {
           </Col>
         </Row>
 
-        <Form.Group className="mb-3"  xs={1} md={2}>
+        <Form.Group className="mb-3">
           <Row className="mb-3" xs={1} md={2}>
             <Col>
               <BaseballInput
                 label="Straat"
-                value={registrationData.schoolInfo.straat || ''}
+                value={registrationData.schoolInfo?.straat || ''}
                 onChange={(e) => handleFieldChange('straat', e.target.value)}
                 readOnly
               />
@@ -139,7 +105,7 @@ const Step4RegioSchool= ({ title }) => {
             <Col>
               <BaseballInput
                 label="Plaats"
-                value={registrationData.schoolInfo.plaats || ''}
+                value={registrationData.schoolInfo?.plaats || ''}
                 onChange={(e) => handleFieldChange('plaats', e.target.value)}
                 readOnly
               />
@@ -147,12 +113,12 @@ const Step4RegioSchool= ({ title }) => {
           </Row>
         </Form.Group>
 
-        {/* Region display */}
-        {isRegionLoading && !registrationData.regionInfo?.Schoolregio && isPostalCodeValid && (
+        {isRegionLoading && !registrationData.regionInfo?.Schoolregio && isValid && (
           <h5 className="text-center mt-4">Regio wordt opgehaald{regionDots}</h5>
         )}
-        {isPostalCodeValid ? (
-          registrationData.regionInfo.Schoolregio && (
+        
+        {isValid ? (
+          registrationData.regionInfo?.Schoolregio && (
             <h5 className="text-center mt-4">
               Schoolregio: {registrationData.regionInfo.Schoolregio}
             </h5>
@@ -161,7 +127,6 @@ const Step4RegioSchool= ({ title }) => {
           <span style={{ color: 'red' }}>{errorMessage}</span>
         )}
 
-        {/* Navigation Buttons */}
         <div className="text-center mt-4">
           <PrevNextButtons
             hasPrev={true}
